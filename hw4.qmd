@@ -102,7 +102,7 @@ depth_rcl <- matrix(c(-Inf, -70, 0,
                     0, Inf, 0),
                     ncol = 3, byrow = TRUE)
 
-# Use reclassification matrix to reclassify SST raster
+# Use reclassification matrix to reclassify depth raster
 depth_reclassified <- classify(depth_res, rcl = depth_rcl)
 
 # Find locations that satisfy both SST and depth conditions
@@ -126,6 +126,7 @@ names(suitable_area)[2] <- "area_km2"
 eez_suitable_area <- left_join(eez, suitable_area, by = c("rgn_id" = "ID")) %>%
     rename(suitable_area = area_km2.y)
 
+# Make table
 kable(eez_suitable_area %>%
   st_drop_geometry() %>%
   select(Region = rgn,
@@ -188,6 +189,8 @@ sst_celsius_fun <- (sst_mean_fun - 273.15)
 # Crop depth raster to match the extent of the SST raster
 # Resample the depth data to match the resolution of the SST data using the nearest neighbor approach
 depth_res_fun <- resample(crop(depth_fun, sst_celsius_fun), sst_celsius_fun, method = "near")
+
+# Reclassify sst data
 
 sst_reclassified_fun <- classify(sst_celsius_fun, rcl = matrix(c(-Inf, min_temp, 0, min_temp, max_temp, 1, max_temp, Inf, 0), ncol = 3, byrow = TRUE))
   depth_reclassified_fun <- classify(depth_res_fun, rcl = matrix(c(-Inf, -max_depth, 0, -max_depth, -min_depth, 1, -min_depth, Inf, 0), ncol = 3, byrow = TRUE))
