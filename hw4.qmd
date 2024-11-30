@@ -153,6 +153,8 @@ area_map
 
 ```
 
+According to our data, Washington has the most total area in Exclusive Economic Zones that are suitable for oysters on the West Coast. This is followed by Central California, Southern California, Oregon and Northern California, respectively.
+
 ## Generalize workflow
 
 ```{r, echo = T, results = 'hide'}
@@ -206,11 +208,7 @@ names(suitable_area_fun)[2] <- "area_km2"
 eez_suitable_area_fun <- left_join(eez_fun, suitable_area_fun, by = c("rgn_id" = "ID")) %>%
     rename(suitable_area = area_km2.y)
 
-# Make table
-table <- kable(eez_suitable_area_fun %>%
-  st_drop_geometry() %>%
-  select(Region = rgn,
-         "Total Suitable Area(km<sup>2</sup>)" = suitable_area), caption = paste("Total suitable area of West Coast EEZs for", species))
+
 
 # Map results
 tmap_mode("view")
@@ -228,15 +226,18 @@ area_map_fun <- tm_shape(eez_suitable_area_fun) +
   tm_scale_bar() +
   tm_compass(position = c("bottomleft"))
 
-return(table)
 return(area_map_fun)
 }
 ```
+
+
 
 ```{r}
 # Use function for Spiny Lobster
 suitable_eez(species = "Spiny Lobster", min_depth = 0 , max_depth = 90, min_temp = 23.7, max_temp = 28)
 ```
+
+According to our data, Washington has the most total area in Exclusive Economic Zones that are suitable for Spiny Lobsters on the West Coast. This is followed by Central California, Oregon, Southern California, and Northern California, respectively.
 
 ## Citations
 
