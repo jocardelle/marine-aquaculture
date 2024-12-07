@@ -1,6 +1,6 @@
 ---
-title: "Homework Assignment #4"
-subtitle: "Prioritizing potential aquaculture"
+title: "Prioritizing Marine Aquaculture"
+subtitle: "Determining which West Coast Exclusive Economic Zones are best suited for developing marine aquaculture"
 author: "Josephine Cardelle"
 date: last-modified
 execute: 
@@ -14,6 +14,10 @@ format:
 editor_options: 
   chunk_output_type: console
 ---
+
+## About
+
+Marine aquaculture has the potential to be a sustainable protein option for global food supply ([Gentry et al.](https://www.nature.com/articles/s41559-017-0257-9)). In this project we will use data surrounding bathymetry, sea surface temperature (SST), and Exclusive Economic Zones (EEZ) to determine west coast areas suitable for marine aquaculture. We will specifically explore areas suitable for oysters and spiny lobsters.
 
 ## Setup
 
@@ -82,7 +86,9 @@ stacked <- c(depth_res, sst_celsius)
 
 ```
 
-## Find suitable locations
+## Determine suitable locations for Oysters
+
+For optimal growth, oysters should be in areas with sea surface temperature of 11 - 30° C and at a depth of 0 - 70 meters below sea level.
 
 ```{r}
 # Create reclassification matrix for sst
@@ -109,8 +115,6 @@ depth_reclassified <- classify(depth_res, rcl = depth_rcl)
 oyster_sst_depth <- lapp(c(sst_reclassified, depth_reclassified), function(x, y) x * y)
 
 ```
-
-## Determine the most suitable EEZ
 
 ```{r}
 # Rasterize EEZ
@@ -233,7 +237,9 @@ return(area_map_fun)
 }
 ```
 
+## Determine suitable locations for Spiny Lobster
 
+For optimal growth, oysters should be in areas with sea surface temperature of 23.7 - 28° C and at a depth of 0 - 90 meters below sea level.
 
 ```{r}
 # Use function for Spiny Lobster
@@ -245,7 +251,7 @@ According to our data, Washington has the most total area in Exclusive Economic 
 ## Citations
 
 | Data                                                 | Citation                                                                                                                                                                                                             | Link                                                                           |
-|------------------|-------------------------|----------------------------|
+|-------------------|-------------------------|----------------------------|
 | Sea Surface Temperaature                             | National Oceanic and Atmospheric Administration. "*NOAA Coral Reef Watch 5-km Satellite Sea Surface Temperature Anomaly Product.*" Accessed Nov. 11, 2024.                                                           | <https://coralreefwatch.noaa.gov/product/5km/index_5km_ssta.php>               |
 | Bathymetry                                           | **General Bathymetric Chart of the Oceans (GEBCO).** "*Gridded Bathymetry Data.*" Accessed Nov. 11, 2024.                                                                                                            | <https://www.gebco.net/data_and_products/gridded_bathymetry_data/#area>        |
 | Exclusive Economic Zones                             | **Marine Regions.** "*Exclusive Economic Zones (EEZ).*" Accessed Nov. 11, 2024.                                                                                                                                      | <https://www.marineregions.org/eez.php>                                        |
